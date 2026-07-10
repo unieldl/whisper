@@ -23,15 +23,12 @@ def check_model(model_name, current_dir):
 # проход по всем моделям
 # если нет в папке - скачивание
 def load_models(current_dir):
-    models = ['tiny', 'base']
-        # 'small': '244 M',
-        # 'medium': '769 M',
-        # 'large': '1550 M',
-        # 'turbo': '809 M'
+    models = ['tiny', 'base', 'small', 'medium', 'large-v3-turbo', 'large-v3']
 
     model_directory = current_dir / 'models'
     for model_name in models:
-        if not check_model(model_name, current_dir): 
+        if not check_model(model_name, current_dir):
+            print(f'Загрузка модели {model_name}')
             whisper.load_model(model_name, download_root=str(model_directory))
     
 
@@ -43,7 +40,7 @@ def model_choice(current_dir):
     for index, model_name in enumerate(all_models_list):
         print(f"{index+1}. {model_name}")
     
-    model_index = int(input('Выбери модель по номеру в списке (рекомендуемая - small)\n'))
+    model_index = int(input('Выбери модель по номеру в списке (исходя из мощности ПК)\n'))
     model_path = './models/' + all_models_list[model_index - 1]
     return model_path
 
@@ -55,7 +52,7 @@ def file_choice():
     print('Список файлов в папке "input" для транскрипции')
     for file_index in range(len(all_audio_list)):
         file_num = file_index + 1
-        print(file_num, all_audio_list[file_index])
+        print(f'{file_num}.', all_audio_list[file_index])
 
     audio_choice = int(input('Введи номер файла в списке\n'))
     audio_path = './input/' + all_audio_list[audio_choice - 1]
